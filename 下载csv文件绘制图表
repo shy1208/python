@@ -12,6 +12,7 @@ with open(filename) as f:
         high=int(row[1])
         highs.append(high)
         current_date=datetime.strptime(row[0],"%Y-%m-%d")
+        #将文件中日期'2014-7-1',通过strptime()函数，转换成python可以识别的日期格式
         dates.append(current_date)
         low=int(row[3])
         lows.append(low)
@@ -20,12 +21,16 @@ with open(filename) as f:
 fig = plt.figure(dpi=128,figsize=(10,6))
 plt.plot(dates,highs,c='red',alpha=0.5)
 plt.plot(dates,lows,c='blue',alpha=0.5)
+#将时间、温度高低值传给plot()函数来进行绘制相关图形
+#以上两句将highs，lows线通过赋予不同颜色来区分
 plt.fill_between(dates,highs,lows,facecolor='blue',alpha=0.1)
+#alpha值为0表示完全透明，1完全不透明
 #设置图形格式
 plt.title("Daily high and low temperatures-2014",fontsize=24)
 plt.xlabel('',fontsize=16)
 fig.autofmt_xdate()
 plt.ylabel("Temperature(F)",fontsize=16)
 plt.tick_params(axis='both',which='major',labelsize=16)
+#上边这句行记住怎么写
 
 plt.show()
