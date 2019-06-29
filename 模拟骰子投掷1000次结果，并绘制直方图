@@ -1,0 +1,74 @@
+#@ date:2019-6-29
+#@ author:shy
+#
+#
+#===========================================================================================
+#filename<die.py>
+#先定义一个投掷六面骰子的类
+from random import randint
+class Die():
+    '''表示一个骰子的类'''
+    def __init__(self,num_sides=6):
+        '''骰子默认6面'''
+        self.num_sides=num_sides
+    def roll(self):
+        '''返回一个位于1和6之间的随机值'''
+        return randint(1,self.num_sides)
+#==========================================================================================
+#filename<die_visual.py>
+#一个骰子进行投掷1000次时，结果与直方图
+import pygal
+from die import Die
+die=Die()
+results=[]
+for null_num in range(1000):
+    result=die.roll()
+    results.append(result)
+#print(results)
+'''分析结果'''
+frequencies=[]
+for value in range(1,die.num_sides+1):
+    frequency=results.count(value)
+    frequencies.append(frequency)
+#print(frequencies)
+
+'''绘制直方图'''
+hist=pygal.Bar()
+
+hist.title="Results of rolling one D6 1000times."
+hist.x_labels=['1','2','3','4','5','6']
+hist.x_title="Result"
+hist.y_title="Frequency of Result"
+
+hist.add('D6',frequencies)
+hist.render_to_file('die_visual.svg')
+#最终生成一个svg文件，需要在浏览器中打开查看
+#====================================================================
+#filename<dice_visual.py>
+#这里是模拟两个骰子进行投掷
+import pygal
+from die import Die
+#创建 2两个D6骰子
+die_1=Die()
+die_2=Die()
+results=[]
+for null_num in range(1000):
+    result=die_1.roll()+die_2.roll()
+    results.append(result)
+'''分析结果'''
+frequencies=[]
+max_result=die_1.num_sides+die_2.num_sides
+for value in range(2,max_result+1):
+    frequency=results.count(value)
+    frequencies.append(frequency)
+#可视化 结果
+hist=pygal.Bar()
+
+hist.title="Results of rolling one D6 1000times."
+hist.x_labels=['2','3','4','5','6','7','8','9','10','11','12']
+hist.x_title="Result"
+hist.y_title="Frequency of Result"
+
+hist.add('D6',frequencies)
+hist.render_to_file('dice_visual.svg')
+#同样也是生成一个.svg文件，需要在浏览器中查看
